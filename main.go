@@ -29,6 +29,18 @@ func createConnections(adjMatrix [][]int) {
 	}
 }
 
+// Determine if a graph is connected.
+// Return true if connected.
+func isConnected(matrix [][]int) bool {
+	zeroRow := make([]int, len(matrix[0]))
+	for i := range matrix {
+		if areEqual(zeroRow, matrix[i]) {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 	rand.Seed(time.Now().Unix())
 
