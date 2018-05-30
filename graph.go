@@ -9,6 +9,15 @@ type Node struct {
 	neighbors []Node
 }
 
+// Display node information.
+func (n Node) display() {
+	fmt.Printf("%v\t", n.index)
+	for i := range n.neighbors {
+		fmt.Printf("%v ", n.neighbors[i].index)
+	}
+	fmt.Println()
+}
+
 type Edge struct {
 	node1, node2 Node
 	weight int
@@ -52,6 +61,6 @@ func (g Graph) display() {
 	fmt.Println("\nis empty: ", g.isEmpty())
 	fmt.Println("is connected: ", g.isConnected())
 	for i := range g.nodes {
-		fmt.Printf("%v\t%v\n", g.nodes[i].index, g.nodes[i].neighbors)
+		g.nodes[i].display()
 	}
 }
