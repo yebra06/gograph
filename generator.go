@@ -1,35 +1,28 @@
 package main
 
 func generateUndirectedGraph(numNodes int) Graph {
-	adjMatrix := createSquareMatrix(numNodes)
-	nodes := make([]Node, numNodes)
-	connections := make([]int, len(adjMatrix[0]))
-
-	for i := range connections {
-		connections[i] = random(0, 2)
-	}
-
-	for i := range connections {
-		for j := range connections {
-			if i != j {
-				adjMatrix[i][j] = connections[abs(i-j)]
-			}
-		}
-	}
-
-	for i := range adjMatrix {
-		nodes[i].index = i
-		for j := range adjMatrix {
-			if adjMatrix[i][j] > 0 {
-				nodes[i].neighbors = append(nodes[i].neighbors, Node{index:j})
-			}
-		}
-	}
-
 	g := Graph {
 		numNodes: numNodes,
-		adjMatrix: adjMatrix,
-		nodes: nodes,
+		adjMatrix: createSquareMatrix(numNodes),
+		nodes: make([]Node, 0, numNodes),
+		edges: make([]Edge, 0, numNodes * (numNodes - 1) / 2),
+	}
+
+	weights := randomArray(0, 2, numNodes)
+	for i := range weights {
+		g.nodes = append(g.nodes, Node{i, []int{}})
+		for j := range weights {
+			if i != j {
+				weight := weights[abs(i - j)]
+				g.adjMatrix[i][j] = weight
+				if weight > 0 {
+					g.nodes[i].neighbors = append(g.nodes[i].neighbors, j)
+					if !g.hasEdge(Edge{j, i, g.adjMatrix[j][i]}) {
+						g.edges = append(g.edges, Edge{i, j, g.adjMatrix[i][j]})
+					}
+				}
+			}
+		}
 	}
 
 	return g

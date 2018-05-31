@@ -10,6 +10,15 @@ func random(min, max int) int {
 	return rand.Intn(max - min) + min
 }
 
+// Generate random array where each element is [min, max].
+func randomArray(min, max, size int) []int {
+	a := make([]int, size)
+	for i := range a {
+		a[i] = random(min, max)
+	}
+	return a
+}
+
 // Find absolute value of number.
 func abs(x int) int {
 	if x < 0 {
